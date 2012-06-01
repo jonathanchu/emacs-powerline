@@ -9,6 +9,7 @@
 
 ;; This package simply provides a minor mode for fancifying the status line.
 
+;; Modified by: Jonathan Chu
 
 ;;; Code:
 
@@ -444,9 +445,8 @@ install the memoized function over the original function."
 (defpowerline status      "%s")
 (defpowerline global      global-mode-string)
 (defpowerline emacsclient mode-line-client)
-(defpowerline vc          (when (and (buffer-file-name (current-buffer))
-                                     vc-mode)
-                                  vc-mode-line))
+(defpowerline vc vc-mode)
+
 (defpowerline percent-xpm (propertize "  "
                                       'display
                                       (let (pmax
