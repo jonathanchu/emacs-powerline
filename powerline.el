@@ -476,7 +476,6 @@ install the memoized function over the original function."
                              (powerline-make-text      ":"          powerline-color1  )
                              (powerline-column         'right       powerline-color1  )
                              (powerline-percent        'right  nil  powerline-color1  )
-                             (powerline-percent-xpm    'text   nil  powerline-color1  )
                              (powerline-make-text      "  "    nil  )))))
 
 (provide 'powerline)
