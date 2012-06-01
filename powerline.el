@@ -463,7 +463,6 @@ install the memoized function over the original function."
               (list "%e"
                     '(:eval (concat
                              (powerline-rmw            'left   nil  )
-                             (powerline-buffer-size    'left   nil  )
                              (powerline-buffer-id      'left   nil  powerline-color1  )
                              (powerline-major-mode     'left        powerline-color1  )
                              (powerline-process        'text        powerline-color1  )
