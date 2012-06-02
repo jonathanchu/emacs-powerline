@@ -89,6 +89,60 @@ static char * arrow_right[] = {
            (if color1 color1 "None"))
    'xpm t :ascent 'center))
 
+(defun arrow14-left-xpm
+  (color1 color2)
+  "Return an XPM left arrow string representing."
+  (create-image
+   (format "/* XPM */
+static char * arrow_left[] = {
+\"12 14 2 1\",
+\". c %s\",
+\"  c %s\",
+\".           \",
+\"..          \",
+\"...         \",
+\"....        \",
+\".....       \",
+\"......      \",
+\".......     \",
+\".......     \",
+\"......      \",
+\".....       \",
+\"....        \",
+\"...         \",
+\"..          \",
+\".           \"};"
+           (if color1 color1 "None")
+           (if color2 color2 "None"))
+   'xpm t :ascent 'center))
+
+(defun arrow14-right-xpm
+  (color1 color2)
+  "Return an XPM right arrow string representing."
+  (create-image
+   (format "/* XPM */
+static char * arrow_right[] = {
+\"12 14 2 1\",
+\". c %s\",
+\"  c %s\",
+\"           .\",
+\"          ..\",
+\"         ...\",
+\"        ....\",
+\"       .....\",
+\"      ......\",
+\"     .......\",
+\"     .......\",
+\"      ......\",
+\"       .....\",
+\"        ....\",
+\"         ...\",
+\"          ..\",
+\"           .\"};"
+           (if color2 color2 "None")
+           (if color1 color1 "None"))
+   'xpm t :ascent 'center))
+
 (defun curve-right-xpm
   (color1 color2)
   "Return an XPM right curve string representing."
@@ -237,6 +291,8 @@ install the memoized function over the original function."
 
 (memoize 'arrow-left-xpm)
 (memoize 'arrow-right-xpm)
+(memoize 'arrow14-left-xpm)
+(memoize 'arrow14-right-xpm)
 (memoize 'curve-left-xpm)
 (memoize 'curve-right-xpm)
 (memoize 'half-xpm)
@@ -291,6 +347,8 @@ install the memoized function over the original function."
          (propertize " " 'display
                      (cond ((eq powerline-arrow-shape 'arrow)
                             (arrow-left-xpm color1 color2))
+                           ((eq powerline-arrow-shape 'arrow14)
+                            (arrow14-left-xpm color1 color2))
                            ((eq powerline-arrow-shape 'curve)
                             (curve-left-xpm color1 color2))
                            ((eq powerline-arrow-shape 'half)
@@ -300,10 +358,11 @@ install the memoized function over the original function."
                      'local-map (make-mode-line-mouse-map
                                  'mouse-1 (lambda () (interactive)
                                             (setq powerline-arrow-shape
-                                                  (cond ((eq powerline-arrow-shape 'arrow) 'curve)
-                                                        ((eq powerline-arrow-shape 'curve) 'half)
-                                                        ((eq powerline-arrow-shape 'half)  'arrow)
-                                                        (t                                 'arrow)))
+                                                  (cond ((eq powerline-arrow-shape 'arrow)   'arrow14)
+                                                        ((eq powerline-arrow-shape 'arrow14) 'curve)
+                                                        ((eq powerline-arrow-shape 'curve)   'half)
+                                                        ((eq powerline-arrow-shape 'half)    'arrow)
+                                                        (t                                   'arrow)))
                                             (redraw-modeline))))
        ""))))
 (defun powerline-make-right
@@ -315,6 +374,8 @@ install the memoized function over the original function."
        (propertize " " 'display
                    (cond ((eq powerline-arrow-shape 'arrow)
                           (arrow-right-xpm color1 color2))
+                         ((eq powerline-arrow-shape 'arrow14)
+                          (arrow14-right-xpm color1 color2))
                          ((eq powerline-arrow-shape 'curve)
                           (curve-right-xpm color1 color2))
                          ((eq powerline-arrow-shape 'half)
@@ -324,10 +385,11 @@ install the memoized function over the original function."
                    'local-map (make-mode-line-mouse-map
                                'mouse-1 (lambda () (interactive)
                                           (setq powerline-arrow-shape
-                                                (cond ((eq powerline-arrow-shape 'arrow) 'curve)
-                                                      ((eq powerline-arrow-shape 'curve) 'half)
-                                                      ((eq powerline-arrow-shape 'half)  'arrow)
-                                                      (t                                 'arrow)))
+                                                (cond ((eq powerline-arrow-shape 'arrow)   'arrow14)
+                                                      ((eq powerline-arrow-shape 'arrow14) 'curve)
+                                                      ((eq powerline-arrow-shape 'curve)   'half)
+                                                      ((eq powerline-arrow-shape 'half)    'arrow)
+                                                      (t                                   'arrow)))
                                           (redraw-modeline))))
        "")
      (if arrow

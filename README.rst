@@ -30,7 +30,15 @@ In your Emacs config:
 Customization
 -------------
 
-To customize, modify the color theme's mode-line:
+You can choose between different arrow shapes:
+
+::
+
+    (setq powerline-arrow-shape 'arrow)   ;; the default
+    (setq powerline-arrow-shape 'curve)   ;; give your mode-line curves
+    (setq powerline-arrow-shape 'arrow14) ;; best for small fonts
+
+You can change the mode-line color using the standard method:
 
 ::
 
