@@ -34,7 +34,9 @@ To customize, modify the color theme's mode-line:
 
 ::
 
-    (mode-line ((t (:foreground "#030303" :background "#bdbdbd"))))
+    (custom-set-faces
+     '(mode-line ((t (:foreground "#030303" :background "#bdbdbd" :box nil))))
+     '(mode-line-inactive ((t (:foreground "#f9f9f9" :background "#666666" :box nil)))))
 
 Additionally, you can modify directly in `powerline.el`:
 
