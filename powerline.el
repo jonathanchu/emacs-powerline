@@ -279,15 +279,15 @@ install the memoized function over the original function."
 (defun memoize-wrap (func)
   "Return the memoized version of the given function."
   (let ((table-sym (gensym))
-	(val-sym (gensym))
-	(args-sym (gensym)))
+    (val-sym (gensym))
+    (args-sym (gensym)))
     (set table-sym (make-hash-table :test 'equal))
     `(lambda (&rest ,args-sym)
        ,(concat (documentation func) "\n(memoized function)")
        (let ((,val-sym (gethash ,args-sym ,table-sym)))
-	 (if ,val-sym
-	     ,val-sym
-	   (puthash ,args-sym (apply ,func ,args-sym) ,table-sym))))))
+     (if ,val-sym
+         ,val-sym
+       (puthash ,args-sym (apply ,func ,args-sym) ,table-sym))))))
 
 (memoize 'arrow-left-xpm)
 (memoize 'arrow-right-xpm)
@@ -474,7 +474,6 @@ install the memoized function over the original function."
                                                    (define-key map [mode-line mouse-2] 'describe-mode)
                                                    (define-key map [mode-line down-mouse-3] mode-line-mode-menu)
                                                    map)))
-(defpowerline process      mode-line-process)
 (defpowerline minor-modes (let ((mms (split-string (format-mode-line minor-mode-alist))))
                             (apply 'concat
                                    (mapcar '(lambda (mm)
@@ -527,7 +526,6 @@ install the memoized function over the original function."
                              (powerline-rmw            'left   nil  )
                              (powerline-buffer-id      'left   nil  powerline-color1  )
                              (powerline-major-mode     'left        powerline-color1  )
-                             (powerline-process        'text        powerline-color1  )
                              (powerline-minor-modes    'left        powerline-color1  )
                              (powerline-narrow         'left        powerline-color1  powerline-color2  )
                              (powerline-global         'center                        powerline-color2  )
