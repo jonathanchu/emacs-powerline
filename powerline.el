@@ -298,8 +298,6 @@ install the memoized function over the original function."
 (memoize 'half-xpm)
 (memoize 'percent-xpm)
 
-
-
 (defvar powerline-minor-modes nil)
 (defvar powerline-arrow-shape 'arrow)
 (defun powerline-make-face
@@ -327,6 +325,7 @@ install the memoized function over the original function."
                             :box nil))
         cface)
     nil))
+
 (defun powerline-make-left
   (string color1 &optional color2 localmap)
   (let ((plface (powerline-make-face color1))
@@ -365,6 +364,7 @@ install the memoized function over the original function."
                                                         (t                                   'arrow)))
                                             (redraw-modeline))))
        ""))))
+
 (defun powerline-make-right
   (string color2 &optional color1 localmap)
   (let ((plface (powerline-make-face color2))
@@ -403,6 +403,7 @@ install the memoized function over the original function."
      (if (or (not string) (string= string ""))
          ""
        (propertize " " 'face plface)))))
+
 (defun powerline-make-fill
   (color)
   ;; justify right by filling with spaces to right fringe, 20 should be calculated
@@ -412,6 +413,7 @@ install the memoized function over the original function."
                     'face plface)
       (propertize " " 'display '((space :align-to (- right-fringe 24)))
                   'face plface))))
+
 (defun powerline-make-text
   (string color &optional fg localmap)
   (let ((plface (powerline-make-face color)))
@@ -420,18 +422,21 @@ install the memoized function over the original function."
             (propertize string 'face plface 'mouse-face plface 'local-map localmap)
           (propertize string 'face plface))
       "")))
+
 (defun powerline-make (side string color1 &optional color2 localmap)
   (cond ((and (eq side 'right) color2) (powerline-make-right  string color1 color2 localmap))
         ((and (eq side 'left) color2)  (powerline-make-left   string color1 color2 localmap))
         ((eq side 'left)               (powerline-make-left   string color1 color1 localmap))
         ((eq side 'right)              (powerline-make-right  string color1 color1 localmap))
         (t                             (powerline-make-text   string color1 localmap))))
+
 (defmacro defpowerline (name string)
   `(defun ,(intern (concat "powerline-" (symbol-name name)))
      (side color1 &optional color2)
      (powerline-make side
                      ,string
                      color1 color2)))
+
 (defun powerline-mouse (click-group click-type string)
   (cond ((eq click-group 'minor)
          (cond ((eq click-type 'menu)
