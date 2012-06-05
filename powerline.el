@@ -509,7 +509,6 @@ install the memoized function over the original function."
                                           'local-map (make-mode-line-mouse-map
                                                       'mouse-1 'mode-line-widen)))))
 (defpowerline status      "%s")
-(defpowerline global      global-mode-string)
 (defpowerline emacsclient mode-line-client)
 (defpowerline vc vc-mode)
 
@@ -533,7 +532,6 @@ install the memoized function over the original function."
                              (powerline-major-mode     'left        powerline-color1  )
                              (powerline-minor-modes    'left        powerline-color1  )
                              (powerline-narrow         'left        powerline-color1  powerline-color2  )
-                             (powerline-global         'center                        powerline-color2  )
                              (powerline-vc             'center                        powerline-color2  )
                              (powerline-make-fill                                     powerline-color2  )
                              (powerline-row            'right       powerline-color1  powerline-color2  )
