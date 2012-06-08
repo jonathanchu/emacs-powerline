@@ -404,6 +404,10 @@ install the memoized function over the original function."
          ""
        (propertize " " 'face plface)))))
 
+;; get-scroll-bar-mode is not available in emacs 23.2
+(if (not (functionp 'get-scroll-bar-mode))
+    (defun get-scroll-bar-mode () scroll-bar-mode))
+
 (defun powerline-make-fill
   (color)
   ;; justify right by filling with spaces to right fringe, 20 should be calculated
