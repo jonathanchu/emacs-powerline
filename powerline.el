@@ -13,6 +13,8 @@
 
 ;;; Code:
 
+(require 'cl)
+
 (defvar powerline-color1)
 (defvar powerline-color2)
 
