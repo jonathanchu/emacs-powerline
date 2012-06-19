@@ -25,7 +25,8 @@
 (set-face-attribute 'mode-line-inactive nil
                     :box nil)
 
-(scroll-bar-mode -1)
+(if (functionp 'scroll-bar-mode)
+    (scroll-bar-mode -1))
 
 (defun arrow-left-xpm
   (color1 color2)
