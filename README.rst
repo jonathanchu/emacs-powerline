@@ -53,7 +53,7 @@ Additionally, you can modify directly in `powerline.el`:
     (setq powerline-color1 "grey22")
     (setq powerline-color2 "grey40")
 
-Change the :forebround, :background, powerline-color1, powerline-color2 to whatever you wish.
+Change the :foreground, :background, powerline-color1, powerline-color2 to whatever you wish.
 
 
 Screenshots
