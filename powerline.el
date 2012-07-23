@@ -13,17 +13,58 @@
 
 ;;; Code:
 
-(defvar powerline-color1)
-(defvar powerline-color2)
+(defgroup powerline nil
+  "Minor mode for fancifying the status line"
+  :prefix "powerline-")
 
-(setq powerline-color1 "grey22")
-(setq powerline-color2 "grey40")
+(defcustom powerline-color1 "grey22"
+  "First color of powerline"
+  :type 'color
+  :group 'powerline)
 
-(set-face-attribute 'mode-line nil
-                    :background "OliveDrab3"
-                    :box nil)
-(set-face-attribute 'mode-line-inactive nil
-                    :box nil)
+(defcustom powerline-color2 "grey40"
+  "Second color of powerline"
+  :type 'color
+  :group 'powerline)
+
+(defun set-active-mode-line (param value)
+  (set-face-attribute 'mode-line nil
+                      :background value
+                      :box nil))
+
+(defun set-inactive-mode-line (param value)
+  (set-face-attribute 'mode-line-inactive nil
+                      :background value
+                      :box nil))
+
+(defun get-active-mode-line (symbol)
+  (face-attribute 'mode-line :background))
+
+(defun get-inactive-mode-line (symbol)
+  (face-attribute 'mode-line-inactive :background))
+
+(defcustom powerline-color3-active "OliveDrab3"
+  "Third color of powerline when the buffer is active"
+  :type 'color
+  :group 'powerline
+  :set 'set-active-mode-line
+  :get 'get-active-mode-line)
+
+
+(defcustom powerline-color3-inactive "grey50"
+  "Third color of powerline when the buffer is inactive"
+  :type 'color
+  :group 'powerline
+  :set 'set-inactive-mode-line
+  :get 'get-inactive-mode-line)
+
+(defcustom powerline-arrow-shape 'arrow
+  "Arrow shape of the powerline"
+  :type '(choice (const :tag "Arrow" arrow)
+                (const :tag "Little arrow" arrow14)
+                (const :tag "Curve" curve)
+                (const :tag "Half" half))
+  :group 'powerline)
 
 (scroll-bar-mode -1)
 
@@ -299,7 +340,6 @@ install the memoized function over the original function."
 (memoize 'percent-xpm)
 
 (defvar powerline-minor-modes nil)
-(defvar powerline-arrow-shape 'arrow)
 (defun powerline-make-face
   (bg &optional fg)
   (if bg
