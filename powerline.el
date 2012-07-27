@@ -474,7 +474,7 @@ install the memoized function over the original function."
                                                          (not powerline-buffer-size-suffix))
                                                    (redraw-modeline)))))
 (defpowerline rmw         "%*")
-(defpowerline major-mode  (propertize mode-name
+(defpowerline major-mode  (propertize (format-mode-line mode-name)
                                       'help-echo "Major mode\n\ mouse-1: Display major mode menu\n\ mouse-2: Show help for major mode\n\ mouse-3: Toggle minor modes"
                                       'local-map (let ((map (make-sparse-keymap)))
                                                    (define-key map [mode-line down-mouse-1]
