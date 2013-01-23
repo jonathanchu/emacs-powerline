@@ -208,6 +208,80 @@ static char * curve_left[] = {
            (if color2 color2 "None"))
    'xpm t :ascent 'center))
 
+(defun arrow18-left-xpm
+  (color1 color2)
+  "Return an XPM left arrow string representing."
+  (create-image
+   (format "/* XPM */
+static char * arrow_left[] = {
+\"18 24 2 1\",
+\". c %s\",
+\"  c %s\",
+\".                 \",
+\"..                \",
+\"...               \",
+\"....              \",
+\".....             \",
+\"......            \",
+\".......           \",
+\"........          \",
+\".........         \",
+\"..........        \",
+\"...........       \",
+\"............      \",
+\"............      \",
+\"...........       \",
+\"..........        \",
+\".........         \",
+\"........          \",
+\".......           \",
+\"......            \",
+\".....             \",
+\"....              \",
+\"...               \",
+\"..                \",
+\".                 \"};"
+           (if color1 color1 "None")
+           (if color2 color2 "None"))
+   'xpm t :ascent 'center))
+
+(defun arrow18-right-xpm
+  (color1 color2)
+  "Return an XPM right arrow string representing."
+  (create-image
+   (format "/* XPM */
+static char * arrow_right[] = {
+\"18 24 2 1\",
+\". c %s\",
+\"  c %s\",
+\"                 .\",
+\"                ..\",
+\"               ...\",
+\"              ....\",
+\"             .....\",
+\"            ......\",
+\"           .......\",
+\"          ........\",
+\"         .........\",
+\"        ..........\",
+\"       ...........\",
+\"      ............\",
+\"      ............\",
+\"       ...........\",
+\"        ..........\",
+\"         .........\",
+\"          ........\",
+\"           .......\",
+\"            ......\",
+\"             .....\",
+\"              ....\",
+\"               ...\",
+\"                ..\",
+\"                 .\"};"
+           (if color2 color2 "None")
+           (if color1 color1 "None"))
+   'xpm t :ascent 'center))
+
 (defun make-xpm
   (name color1 color2 data)
   "Return an XPM image for lol data"
@@ -296,6 +370,8 @@ install the memoized function over the original function."
 (memoize 'arrow-right-xpm)
 (memoize 'arrow14-left-xpm)
 (memoize 'arrow14-right-xpm)
+(memoize 'arrow18-left-xpm)
+(memoize 'arrow18-right-xpm)
 (memoize 'curve-left-xpm)
 (memoize 'curve-right-xpm)
 (memoize 'half-xpm)
@@ -355,6 +431,8 @@ install the memoized function over the original function."
                             (curve-left-xpm color1 color2))
                            ((eq powerline-arrow-shape 'half)
                             (half-xpm color2 color1))
+                           ((eq powerline-arrow-shape 'arrow18)
+                            (arrow18-left-xpm color1 color2))
                            (t
                             (arrow-left-xpm color1 color2)))
                      'local-map (make-mode-line-mouse-map
@@ -363,7 +441,8 @@ install the memoized function over the original function."
                                                   (cond ((eq powerline-arrow-shape 'arrow)   'arrow14)
                                                         ((eq powerline-arrow-shape 'arrow14) 'curve)
                                                         ((eq powerline-arrow-shape 'curve)   'half)
-                                                        ((eq powerline-arrow-shape 'half)    'arrow)
+                                                        ((eq powerline-arrow-shape 'half)    'arrow18)
+                                                        ((eq powerline-arrow-shape 'arrow18) 'arrow)
                                                         (t                                   'arrow)))
                                             (redraw-modeline))))
        ""))))
@@ -383,6 +462,8 @@ install the memoized function over the original function."
                           (curve-right-xpm color1 color2))
                          ((eq powerline-arrow-shape 'half)
                           (half-xpm color2 color1))
+                         ((eq powerline-arrow-shape 'arrow18)
+                          (arrow18-right-xpm color1 color2))
                          (t
                           (arrow-right-xpm color1 color2)))
                    'local-map (make-mode-line-mouse-map
@@ -391,7 +472,8 @@ install the memoized function over the original function."
                                                 (cond ((eq powerline-arrow-shape 'arrow)   'arrow14)
                                                       ((eq powerline-arrow-shape 'arrow14) 'curve)
                                                       ((eq powerline-arrow-shape 'curve)   'half)
-                                                      ((eq powerline-arrow-shape 'half)    'arrow)
+                                                      ((eq powerline-arrow-shape 'half)    'arrow18)
+                                                      ((eq powerline-arrow-shape 'arrow18) 'arrow)
                                                       (t                                   'arrow)))
                                           (redraw-modeline))))
        "")
