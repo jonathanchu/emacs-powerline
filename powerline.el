@@ -30,121 +30,57 @@
 (if (functionp 'scroll-bar-mode)
     (scroll-bar-mode -1))
 
+(defun get-arrow-dots
+  (leftp width height)
+  (mapconcat
+   'identity
+   (mapcar
+    (lambda (n)
+      (let* ((nx (if (< n (/ height 2)) n (- height n)))
+             (dots (concat (make-list nx ?\.)))
+             (spaces (concat (make-list (- width nx) ?\ ))))
+        (format
+         ",\n\"%s\""
+         (concat (if leftp dots spaces) (if leftp spaces dots)))))
+    (number-sequence 1 height)) ""))
+
+(defun get-arrow-xpm
+  (direction width height &optional color1 color2)
+  "Create an XPM left arrow."
+  (let* ((leftp (eq 'left direction))
+         (fg (if leftp color1 color2))
+         (bg (if leftp color2 color1)))
+    (create-image
+     (format "/* XPM */
+static char * arrow_left[] = {
+\"%d %d 2 1\",
+\". c %s\",
+\"  c %s\"%s};"
+             width height
+             (if fg fg "None")
+             (if bg bg "None")
+             (get-arrow-dots leftp width height))
+     'xpm t :ascent 'center)))
+
 (defun arrow-left-xpm
   (color1 color2)
   "Return an XPM left arrow string representing."
-  (create-image
-   (format "/* XPM */
-static char * arrow_left[] = {
-\"12 18 2 1\",
-\". c %s\",
-\"  c %s\",
-\".           \",
-\"..          \",
-\"...         \",
-\"....        \",
-\".....       \",
-\"......      \",
-\".......     \",
-\"........    \",
-\".........   \",
-\".........   \",
-\"........    \",
-\".......     \",
-\"......      \",
-\".....       \",
-\"....        \",
-\"...         \",
-\"..          \",
-\".           \"};"
-           (if color1 color1 "None")
-           (if color2 color2 "None"))
-   'xpm t :ascent 'center))
+  (get-arrow-xpm 'left 12 18 color1 color2))
 
 (defun arrow-right-xpm
   (color1 color2)
   "Return an XPM right arrow string representing."
-  (create-image
-   (format "/* XPM */
-static char * arrow_right[] = {
-\"12 18 2 1\",
-\". c %s\",
-\"  c %s\",
-\"           .\",
-\"          ..\",
-\"         ...\",
-\"        ....\",
-\"       .....\",
-\"      ......\",
-\"     .......\",
-\"    ........\",
-\"   .........\",
-\"   .........\",
-\"    ........\",
-\"     .......\",
-\"      ......\",
-\"       .....\",
-\"        ....\",
-\"         ...\",
-\"          ..\",
-\"           .\"};"
-           (if color2 color2 "None")
-           (if color1 color1 "None"))
-   'xpm t :ascent 'center))
+  (get-arrow-xpm 'right 12 18 color1 color2))
 
 (defun arrow14-left-xpm
   (color1 color2)
   "Return an XPM left arrow string representing."
-  (create-image
-   (format "/* XPM */
-static char * arrow_left[] = {
-\"12 14 2 1\",
-\". c %s\",
-\"  c %s\",
-\".           \",
-\"..          \",
-\"...         \",
-\"....        \",
-\".....       \",
-\"......      \",
-\".......     \",
-\".......     \",
-\"......      \",
-\".....       \",
-\"....        \",
-\"...         \",
-\"..          \",
-\".           \"};"
-           (if color1 color1 "None")
-           (if color2 color2 "None"))
-   'xpm t :ascent 'center))
+  (get-arrow-xpm 'left 12 14 color1 color2))
 
 (defun arrow14-right-xpm
   (color1 color2)
   "Return an XPM right arrow string representing."
-  (create-image
-   (format "/* XPM */
-static char * arrow_right[] = {
-\"12 14 2 1\",
-\". c %s\",
-\"  c %s\",
-\"           .\",
-\"          ..\",
-\"         ...\",
-\"        ....\",
-\"       .....\",
-\"      ......\",
-\"     .......\",
-\"     .......\",
-\"      ......\",
-\"       .....\",
-\"        ....\",
-\"         ...\",
-\"          ..\",
-\"           .\"};"
-           (if color2 color2 "None")
-           (if color1 color1 "None"))
-   'xpm t :ascent 'center))
+  (get-arrow-xpm 'right 12 14 color1 color2))
 
 (defun curve-right-xpm
   (color1 color2)
