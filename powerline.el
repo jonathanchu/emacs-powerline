@@ -33,16 +33,15 @@
 (defun get-arrow-dots
   (leftp width height)
   (mapconcat
-   'identity
+   (apply-partially 'format "\"%s\"")
    (mapcar
     (lambda (n)
-      (let* ((nx (if (< n (/ height 2)) n (- height n)))
-             (dots (concat (make-list nx ?\.)))
-             (spaces (concat (make-list (- width nx) ?\ ))))
-        (format
-         ",\n\"%s\""
-         (concat (if leftp dots spaces) (if leftp spaces dots)))))
-    (number-sequence 1 height)) ""))
+       (let* ((nx (if (< n (/ height 2)) n (- height n)))
+              (dots (make-string nx ?.))
+              (spaces (make-string (- width nx) ? )))
+         (if leftp (concat dots spaces) (concat spaces dots))))
+    (number-sequence 1 height))
+   ",\n"))
 
 (defun get-arrow-xpm
   (direction width height &optional color1 color2)
@@ -55,32 +54,36 @@
 static char * arrow_left[] = {
 \"%d %d 2 1\",
 \". c %s\",
-\"  c %s\"%s};"
+\"  c %s\",
+%s};"
              width height
              (if fg fg "None")
              (if bg bg "None")
              (get-arrow-dots leftp width height))
      'xpm t :ascent 'center)))
 
+(defun mode-line-height ()
+  "The mode line height with its current font face."
+  (- (elt (window-pixel-edges) 3)
+     (elt (window-inside-pixel-edges) 3)))
+
+(defun proportional-arrow-xpm
+  (direction color1 color2)
+  (let* ((r 1.5)
+         (m-height (mode-line-height))
+         (height (if (evenp m-height) m-height (+ 1 m-height)))
+         (width (floor (/ height r))))
+    (get-arrow-xpm direction width height color1 color2)))
+
 (defun arrow-left-xpm
   (color1 color2)
   "Return an XPM left arrow string representing."
-  (get-arrow-xpm 'left 12 18 color1 color2))
+  (proportional-arrow-xpm 'left color1 color2))
 
 (defun arrow-right-xpm
   (color1 color2)
   "Return an XPM right arrow string representing."
-  (get-arrow-xpm 'right 12 18 color1 color2))
-
-(defun arrow14-left-xpm
-  (color1 color2)
-  "Return an XPM left arrow string representing."
-  (get-arrow-xpm 'left 12 14 color1 color2))
-
-(defun arrow14-right-xpm
-  (color1 color2)
-  "Return an XPM right arrow string representing."
-  (get-arrow-xpm 'right 12 14 color1 color2))
+  (proportional-arrow-xpm 'right color1 color2))
 
 (defun curve-right-xpm
   (color1 color2)
@@ -230,8 +233,6 @@ install the memoized function over the original function."
 
 (memoize 'arrow-left-xpm)
 (memoize 'arrow-right-xpm)
-(memoize 'arrow14-left-xpm)
-(memoize 'arrow14-right-xpm)
 (memoize 'curve-left-xpm)
 (memoize 'curve-right-xpm)
 (memoize 'half-xpm)
@@ -285,8 +286,6 @@ install the memoized function over the original function."
          (propertize " " 'display
                      (cond ((eq powerline-arrow-shape 'arrow)
                             (arrow-left-xpm color1 color2))
-                           ((eq powerline-arrow-shape 'arrow14)
-                            (arrow14-left-xpm color1 color2))
                            ((eq powerline-arrow-shape 'curve)
                             (curve-left-xpm color1 color2))
                            ((eq powerline-arrow-shape 'half)
@@ -296,11 +295,10 @@ install the memoized function over the original function."
                      'local-map (make-mode-line-mouse-map
                                  'mouse-1 (lambda () (interactive)
                                             (setq powerline-arrow-shape
-                                                  (cond ((eq powerline-arrow-shape 'arrow)   'arrow14)
-                                                        ((eq powerline-arrow-shape 'arrow14) 'curve)
-                                                        ((eq powerline-arrow-shape 'curve)   'half)
-                                                        ((eq powerline-arrow-shape 'half)    'arrow)
-                                                        (t                                   'arrow)))
+                                                  (cond ((eq powerline-arrow-shape 'arrow) 'curve)
+                                                        ((eq powerline-arrow-shape 'curve) 'half)
+                                                        ((eq powerline-arrow-shape 'half)  'arrow)
+                                                        (t                                 'arrow)))
                                             (redraw-modeline))))
        ""))))
 
@@ -313,8 +311,6 @@ install the memoized function over the original function."
        (propertize " " 'display
                    (cond ((eq powerline-arrow-shape 'arrow)
                           (arrow-right-xpm color1 color2))
-                         ((eq powerline-arrow-shape 'arrow14)
-                          (arrow14-right-xpm color1 color2))
                          ((eq powerline-arrow-shape 'curve)
                           (curve-right-xpm color1 color2))
                          ((eq powerline-arrow-shape 'half)
@@ -324,11 +320,10 @@ install the memoized function over the original function."
                    'local-map (make-mode-line-mouse-map
                                'mouse-1 (lambda () (interactive)
                                           (setq powerline-arrow-shape
-                                                (cond ((eq powerline-arrow-shape 'arrow)   'arrow14)
-                                                      ((eq powerline-arrow-shape 'arrow14) 'curve)
-                                                      ((eq powerline-arrow-shape 'curve)   'half)
-                                                      ((eq powerline-arrow-shape 'half)    'arrow)
-                                                      (t                                   'arrow)))
+                                                (cond ((eq powerline-arrow-shape 'arrow) 'curve)
+                                                      ((eq powerline-arrow-shape 'curve) 'half)
+                                                      ((eq powerline-arrow-shape 'half)  'arrow)
+                                                      (t                                 'arrow)))
                                           (redraw-modeline))))
        "")
      (if arrow
