@@ -166,12 +166,12 @@ static char * %s[] = {
     (let ((len  (length data))
           (idx  0))
       (apply 'concat
-             (mapcar '(lambda (dl)
+             (mapcar #'(lambda (dl)
                         (setq idx (+ idx 1))
                         (concat
                          "\""
                          (concat
-                          (mapcar '(lambda (d)
+                          (mapcar #'(lambda (d)
                                      (if (eq d 0)
                                          (string-to-char " ")
                                        (string-to-char ".")))
@@ -407,6 +407,7 @@ install the memoized function over the original function."
                                                    (setq powerline-buffer-size-suffix
                                                          (not powerline-buffer-size-suffix))
                                                    (redraw-modeline)))))
+(defpowerline lcl         current-input-method-title)
 (defpowerline rmw         "%*")
 (defpowerline major-mode  (propertize (format-mode-line mode-name)
                                       'help-echo "Major mode\n\ mouse-1: Display major mode menu\n\ mouse-2: Show help for major mode\n\ mouse-3: Toggle minor modes"
@@ -419,7 +420,7 @@ install the memoized function over the original function."
                                                    map)))
 (defpowerline minor-modes (let ((mms (split-string (format-mode-line minor-mode-alist))))
                             (apply 'concat
-                                   (mapcar '(lambda (mm)
+                                   (mapcar #'(lambda (mm)
                                               (propertize (if (string= (car mms)
                                                                        mm)
                                                               mm
@@ -465,6 +466,7 @@ install the memoized function over the original function."
 (setq-default mode-line-format
               (list "%e"
                     '(:eval (concat
+                             (powerline-lcl            'left   nil  )
                              (powerline-rmw            'left   nil  )
                              (powerline-buffer-id      'left   nil  powerline-color1  )
                              (powerline-major-mode     'left        powerline-color1  )
