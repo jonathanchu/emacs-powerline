@@ -27,9 +27,6 @@
 (set-face-attribute 'mode-line-inactive nil
                     :box nil)
 
-(if (functionp 'scroll-bar-mode)
-    (scroll-bar-mode -1))
-
 (defun get-arrow-dots
   (leftp width height)
   (mapconcat
