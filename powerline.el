@@ -29,16 +29,28 @@
 
 (defun get-arrow-dots
   (leftp width height)
-  (mapconcat
-   (apply-partially 'format "\"%s\"")
-   (mapcar
-    (lambda (n)
-       (let* ((nx (if (< n (/ height 2)) n (- height n)))
-              (dots (make-string nx ?.))
-              (spaces (make-string (- width nx) ? )))
-         (if leftp (concat dots spaces) (concat spaces dots))))
-    (number-sequence 1 height))
-   ",\n"))
+  (let* ((halfheight (/ height 2)))
+    (mapconcat
+     (apply-partially 'format "\"%s\"")
+     (mapcar
+      (lambda (n)
+	(let* ((nx (if (< n halfheight) n (- height n)))
+	       (dots (make-string nx ?.))
+	       (spaces (make-string (- width nx) ? )))
+	  (if leftp
+	      (concat dots spaces)
+	    (concat spaces dots))))
+      (arrow-number-sequence height))
+     ",\n")))
+
+(defun arrow-number-sequence
+  (height)
+  (if (oddp height)
+      (number-sequence 1 height)
+    (let* ((halfheight (/ height 2)))
+      (append
+       (number-sequence 1 halfheight)
+       (cons halfheight (number-sequence (1+ halfheight) (1- height)))))))
 
 (defun get-arrow-xpm
   (direction width height &optional color1 color2)
